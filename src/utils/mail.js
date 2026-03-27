@@ -32,7 +32,7 @@ const sendEmail = async (options) => {
   };
 
   try {
-    await transporter.sendEmail(mail);
+    await transporter.sendMail(mail);
   } catch (error) {
     console.error(
       "Email service failed. make sure that you provide yopur mailtrap crediatials in the .env file",
@@ -42,20 +42,20 @@ const sendEmail = async (options) => {
 };
 
 const emailVerificationMailgenContent = (username, verificationUrl) => {
-  return {
+   return {
     body: {
       name: username,
-      intro: "Welcome to our Application we'are exicited to have you on board.",
+      intro: "Welcome to our application, we're excited to have you on board.",
       action: {
-        intructions:
-          "To verify your email please click on the following button",
+        instructions: "To verify your email please click the button below:",
         button: {
-          color: "#1aae5aaf",
+          color: "#1aae5a",
+          text: "Verify Email", 
           link: verificationUrl,
         },
       },
       outro:
-        "Need help, or have questions? just reply ti this email, web'd love to help.",
+        "Need help, or have questions? Just reply to this email, we'd love to help.",
     },
   };
 };
