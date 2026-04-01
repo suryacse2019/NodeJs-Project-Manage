@@ -38,6 +38,11 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password id required"],
     },
+    role:{
+      type: String,
+      enum: ["ADMIN", "PROJECT_ADMIN", "MEMBER"],
+      default: "MEMBER",
+    },
     isEmailVerified: {
       type: Boolean,
       default: false,

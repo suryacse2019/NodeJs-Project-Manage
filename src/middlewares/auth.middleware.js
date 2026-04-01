@@ -12,13 +12,24 @@ export const verifyJWT = asyncHandler(async(req, res, next) => {
     throw new ApiError(401, "Unauthorized request");
    }
 
-   try{
+ 
+   try {
+         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    // await User.findById(decodedToken?)
+         const user = await User.findById(decodedToken?._id).select(
+            "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
+         );
 
-   }catch(error){
+         if (!user) {
+            throw new ApiError(401, "Invalid access token");
+         }
 
+         req.user = user;
+
+         next();
+
+   } catch (error) {
+      throw new ApiError(401, "Invalid access token"); 
    }
 
 });
