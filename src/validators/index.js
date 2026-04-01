@@ -60,7 +60,15 @@ const userResetPasswordValidator = () => {
     ]
 }
 
+const projectCreateValidator = () => {
+    
+    return [
+        body("name").notEmpty().withMessage("Project name is required"),
+        body("description").notEmpty().withMessage("Description is required")
+    ]
+}
+
 
 export {
-    userRegisterValidator, userLoginValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userResetPasswordValidator 
+    userRegisterValidator, userLoginValidator, userChangeCurrentPasswordValidator, userForgotPasswordValidator, userResetPasswordValidator, projectCreateValidator
 }
