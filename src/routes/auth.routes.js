@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { changeCurrentPassword, forgotPasswordRequest, getCurrentUser, login, logoutUser, refreshTokenAccessToken, registerUser, resendEmailVerification, resetForgotPassword, verifyEmail } from "../controllers/auth.controllers.js";
+import { changeCurrentPassword, forgotPasswordRequest, getCurrentUser, login, logoutUser, refreshTokenAccessToken, registerUser, resendEmailVerification, resetForgotPassword, updateProfile, verifyEmail } from "../controllers/auth.controllers.js";
 import { validate } from "../middlewares/validator.middleware.js"; 
 import { userChangeCurrentPasswordValidator, userForgotPasswordValidator, userLoginValidator, userRegisterValidator, userResetPasswordValidator } from "../validators/index.js";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { fileUpload, verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -13,6 +13,7 @@ router.route("/verify-email/:verificationToken").get(verifyEmail);
 router.route("/refresh-token").post(refreshTokenAccessToken);
 router.route("/forgot-password").post(userForgotPasswordValidator(), validate, forgotPasswordRequest);
 router.route("/reset-password/:resetToken").post(userResetPasswordValidator(), validate, resetForgotPassword);
+router.route("/profile-update").post(verifyJWT,  fileUpload, updateProfile);
 
 
 

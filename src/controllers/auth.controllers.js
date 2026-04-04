@@ -391,8 +391,37 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
 });
 
+const updateProfile = asyncHandler(async (req, res) => { 
+
+  if (!req.file) {
+    res.status(400);
+    throw new Error("Please upload an image");
+  }
+
+  const user = await User.findById(req.user._id);
+
+  if(!user){
+    throw new ApiError(400, "User not found !");
+  }
+
+  user.avatar = {
+    url: `/uploads/${req.file.filename}`,
+    public_id: req.file.filename
+  };
+  
+  await user.save();
+
+  return res
+    .status(200)
+    .json( 
+      new APiResponse(200, {}, "profile pic updated successfully")
+    )
+
+
+});
+
 
 // const verifyEmail = asyncHandler(async (req, res) => { });
 
-export { registerUser, login, logoutUser, getCurrentUser, verifyEmail, resendEmailVerification, refreshTokenAccessToken, forgotPasswordRequest, resetForgotPassword, changeCurrentPassword };
+export { registerUser, login, logoutUser, getCurrentUser, verifyEmail, resendEmailVerification, refreshTokenAccessToken, forgotPasswordRequest, resetForgotPassword, changeCurrentPassword, updateProfile };
  
